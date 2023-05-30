@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import info.igorek.practice.R
 import info.igorek.practice.adapters.MyRecyclerAdapter
 import info.igorek.practice.adapters.MyRecyclerType.ImageItem
@@ -32,8 +33,20 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val adapter = MyRecyclerAdapter()
+        val adapter = MyRecyclerAdapter { message ->
+            showDialog(message)
+        }
         adapter.submitList(list)
         binding.recyclerview.adapter = adapter
+    }
+
+    private fun showDialog(message: String) {
+        MaterialAlertDialogBuilder(requireContext()).apply {
+            setTitle("Info")
+            setMessage(message)
+            setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+        }.show()
     }
 }
