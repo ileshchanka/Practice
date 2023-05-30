@@ -1,4 +1,4 @@
-package info.igorek.practice1androidbasics
+package info.igorek.practice
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

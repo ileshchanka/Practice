@@ -2,4 +2,5 @@
     <string name="app_name">Practice 1. Android Basics</string>
     <string name="hello">Hello</string>
     <string name="andersen">Andersen</string>
+    <string name="text_here">Text here</string>
 </resources>
