@@ -3,4 +3,5 @@
     <string name="hello">Hello</string>
     <string name="andersen">Andersen</string>
     <string name="text_here">Text here</string>
+    <string name="some_item">Some item</string>
 </resources>

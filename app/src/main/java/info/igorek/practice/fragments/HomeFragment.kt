@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import androidx.viewpager2.widget.ViewPager2
+import by.kirich1409.viewbindingdelegate.viewBinding
 import info.igorek.practice.R
+import info.igorek.practice.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    private lateinit var viewPager: ViewPager2
+    private val binding by viewBinding(FragmentHomeBinding::bind)
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewPager = view.findViewById(R.id.pager)
+        val viewPager = binding.pager
         viewPager.adapter = LessonsPagerAdapter(this)
     }
 
@@ -21,6 +23,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         private val fragmentList = listOf(
             HelloFragment(),
             TextFragment(),
+            ListFragment(),
         )
 
         override fun getItemCount(): Int {
