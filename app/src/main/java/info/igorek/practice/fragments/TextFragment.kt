@@ -12,7 +12,7 @@ class TextFragment : Fragment(R.layout.fragment_text) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-        val editText = view.findViewById<EditText>(R.id.edit_text)
+        val editText = view.findViewById<EditText>(R.id.edittext)
 
         editText.doAfterTextChanged { text ->
             Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
