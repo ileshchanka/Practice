@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'info.igorek.practice1androidbasics'
+    namespace 'info.igorek.practice'
     compileSdk 33
 
     defaultConfig {
-        applicationId "info.igorek.practice1androidbasics"
+        applicationId "info.igorek.practice"
         minSdk 28
         targetSdk 33
         versionCode 1
