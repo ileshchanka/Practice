@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Practice 1. Android Basics</string>
+    <string name="app_name">Practice</string>
+    <string name="channel_name">Channel name</string>
+    <string name="channel_desc">Channel Description</string>
 </resources>
