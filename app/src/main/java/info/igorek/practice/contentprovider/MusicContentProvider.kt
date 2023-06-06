@@ -21,7 +21,8 @@ class MusicContentProvider : ContentProvider() {
         const val COLUMN_GENRE = "genre"
         const val COLUMN_TITLE = "title"
         const val COLUMN_PATH = "path"
-        const val MIME_TYPE = "vnd.android.cursor.dir/vnd.example.music"
+        const val MIME_TYPE = "vnd.android.cursor.dir/info.igorek.music"
+        val CONTENT_URI: Uri = Uri.parse("content://$AUTHORITY/$TABLE_NAME")
     }
 
     private lateinit var database: SQLiteDatabase
@@ -29,6 +30,9 @@ class MusicContentProvider : ContentProvider() {
     override fun onCreate(): Boolean {
         val helper = DatabaseHelper(context!!)
         database = helper.writableDatabase
+
+        initValues()
+
         return true
     }
 
@@ -72,5 +76,101 @@ class MusicContentProvider : ContentProvider() {
             db.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
             onCreate(db)
         }
+    }
+
+    private fun initValues() {
+
+        database.execSQL("DELETE FROM $TABLE_NAME")
+
+        insert(
+            CONTENT_URI,
+            ContentValues().apply {
+                put(COLUMN_ARTIST, "Colorful Cat")
+                put(COLUMN_GENRE, "Relax")
+                put(COLUMN_TITLE, "Araishu")
+                put(COLUMN_PATH, "android.resource://info.igorek.practice/raw/colorful_cat_araishu")
+            }
+        )
+        insert(
+            CONTENT_URI,
+            ContentValues().apply {
+                put(COLUMN_ARTIST, "Colorful Cat")
+                put(COLUMN_GENRE, "Relax")
+                put(COLUMN_TITLE, "Asagi")
+                put(COLUMN_PATH, "android.resource://info.igorek.practice/raw/colorful_cat_asagi")
+            }
+        )
+        insert(
+            CONTENT_URI,
+            ContentValues().apply {
+                put(COLUMN_ARTIST, "Colorful Cat")
+                put(COLUMN_GENRE, "Instrumental")
+                put(COLUMN_TITLE, "Byakuroku")
+                put(COLUMN_PATH, "android.resource://info.igorek.practice/raw/colorful_cat_byakuroku")
+            }
+        )
+        insert(
+            CONTENT_URI,
+            ContentValues().apply {
+                put(COLUMN_ARTIST, "David Cutter Music")
+                put(COLUMN_GENRE, "Vlog")
+                put(COLUMN_TITLE, "Ack Woi")
+                put(COLUMN_PATH, "android.resource://info.igorek.practice/raw/david_cutter_music_ack_woi")
+            }
+        )
+        insert(
+            CONTENT_URI,
+            ContentValues().apply {
+                put(COLUMN_ARTIST, "Day 7")
+                put(COLUMN_GENRE, "Relax")
+                put(COLUMN_TITLE, "Cosmic Sailing")
+                put(COLUMN_PATH, "android.resource://info.igorek.practice/raw/day_7_cosmic_sailing")
+            }
+        )
+        insert(
+            CONTENT_URI,
+            ContentValues().apply {
+                put(COLUMN_ARTIST, "Day 7")
+                put(COLUMN_GENRE, "Instrumental")
+                put(COLUMN_TITLE, "Dusk")
+                put(COLUMN_PATH, "android.resource://info.igorek.practice/raw/day_7_dusk")
+            }
+        )
+        insert(
+            CONTENT_URI,
+            ContentValues().apply {
+                put(COLUMN_ARTIST, "Day 7")
+                put(COLUMN_GENRE, "Relax")
+                put(COLUMN_TITLE, "Waiting for you")
+                put(COLUMN_PATH, "android.resource://info.igorek.practice/raw/day_7_waiting_for_you")
+            }
+        )
+        insert(
+            CONTENT_URI,
+            ContentValues().apply {
+                put(COLUMN_ARTIST, "Markvard")
+                put(COLUMN_GENRE, "Indie")
+                put(COLUMN_TITLE, "You And Me")
+                put(COLUMN_PATH, "android.resource://info.igorek.practice/raw/markvard_you_and_me")
+            }
+        )
+        insert(
+            CONTENT_URI,
+            ContentValues().apply {
+                put(COLUMN_ARTIST, "Ooyy")
+                put(COLUMN_GENRE, "Vlog")
+                put(COLUMN_TITLE, "Maverick")
+                put(COLUMN_PATH, "android.resource://info.igorek.practice/raw/ooyy_maverick")
+            }
+        )
+        insert(
+            CONTENT_URI,
+            ContentValues().apply {
+                put(COLUMN_ARTIST, "You Are Free")
+                put(COLUMN_GENRE, "Relax")
+                put(COLUMN_TITLE, "Never Let Go")
+                put(COLUMN_PATH, "android.resource://info.igorek.practice/raw/you_are_free_never_let_go")
+            }
+        )
     }
 }
