@@ -22,4 +22,18 @@
         android:text="Stop"
         />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_select_artist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Выбрать исполнителя"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textview_song"
+        android:text="Test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
 </LinearLayout>

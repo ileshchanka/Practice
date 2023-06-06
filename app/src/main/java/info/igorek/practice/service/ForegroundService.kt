@@ -1,4 +1,4 @@
-package info.igorek.practice
+package info.igorek.practice.service
 
 import android.app.Notification
 import android.app.PendingIntent
@@ -17,6 +17,8 @@ import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.MediaDescriptionAdapter
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.NotificationListener
 import com.google.android.exoplayer2.util.NotificationUtil.IMPORTANCE_HIGH
+import info.igorek.practice.MainActivity
+import info.igorek.practice.R
 
 class ForegroundService : Service() {
 

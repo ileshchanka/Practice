@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="artists">
+        <item name="Test">Test</item>
+        <item name="Test2">Test2</item>
+    </string-array>
+    <string-array name="genres">
+        <item name="TestGenre">TestGenre</item>
+        <item name="TestGenre2">TestGenre2</item>
+    </string-array>
+</resources>
