@@ -8,19 +8,18 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.audio.AudioAttributes
 import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.MediaDescriptionAdapter
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.NotificationListener
 import com.google.android.exoplayer2.util.NotificationUtil.IMPORTANCE_HIGH
+import info.igorek.practice.EXTRA_SONG_PATH
 import info.igorek.practice.MainActivity
 import info.igorek.practice.R
 
-class ForegroundService : Service() {
+class MusicService : Service() {
 
     companion object {
         private const val NOTIFICATION_ID = 123
@@ -89,19 +88,6 @@ class ForegroundService : Service() {
             .setChannelNameResourceId(R.string.channel_name)
             .build()
 
-        val audioAttributes = AudioAttributes.Builder()
-            .setUsage(C.USAGE_MEDIA)
-            .setContentType(C.AUDIO_CONTENT_TYPE_MUSIC)
-            .build()
-
-        val mediaItem = MediaItem.fromUri(Uri.parse("android.resource://$packageName/raw/david_cutter_music_ack_woi"))
-        player.apply {
-            setAudioAttributes(audioAttributes, true)
-            setMediaItem(mediaItem)
-            prepare()
-            playWhenReady = true
-        }
-
         notificationManager.apply {
             setPlayer(player)
             setPriority(NotificationCompat.PRIORITY_MAX)
@@ -113,6 +99,14 @@ class ForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+
+        val mediaItem = MediaItem.fromUri(Uri.parse(intent?.getStringExtra(EXTRA_SONG_PATH)))
+
+        player.apply {
+            setMediaItem(mediaItem)
+            prepare()
+            playWhenReady = true
+        }
         return START_STICKY
     }
 

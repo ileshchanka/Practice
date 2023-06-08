@@ -33,7 +33,7 @@
         </activity>
 
         <service
-            android:name=".service.ForegroundService"
+            android:name=".service.MusicService"
             android:exported="true"
             android:foregroundServiceType="mediaPlayback"
             />

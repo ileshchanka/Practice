@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.exoplayer2.util.Util
 import info.igorek.practice.databinding.ActivityMainBinding
-import info.igorek.practice.service.ForegroundService
+import info.igorek.practice.service.MusicService
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,13 +20,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var songPath = EMPTY_STRING
 
         with(binding) {
             buttonPlay.setOnClickListener {
-                Util.startForegroundService(
-                    this@MainActivity,
-                    Intent(this@MainActivity, ForegroundService::class.java)
-                )
+                if (songPath.isNotEmpty()) {
+                    Util.startForegroundService(
+                        this@MainActivity,
+                        Intent(this@MainActivity, MusicService::class.java).apply {
+                            putExtra(EXTRA_SONG_PATH, songPath)
+                        }
+                    )
+                }
             }
 
             buttonPause.setOnClickListener {}
@@ -43,6 +48,7 @@ class MainActivity : AppCompatActivity() {
                 val songName = intent.getStringExtra(EXTRA_SONG_NAME)
                 val artistName = intent.getStringExtra(EXTRA_ARTIST_NAME)
                 val genreName = intent.getStringExtra(EXTRA_GENRE_NAME)
+                songPath = intent.getStringExtra(EXTRA_SONG_PATH).orEmpty()
 
                 with(binding) {
                     textviewSongArtist.text = artistName

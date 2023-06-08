@@ -9,7 +9,12 @@ import info.igorek.practice.contentprovider.SongAdapter.SongViewHolder
 import info.igorek.practice.databinding.ItemSongBinding
 
 class SongAdapter(
-//    val onItemClick: (message: String) -> Unit,
+    val onItemClick: (
+        title: String,
+        artist: String,
+        genre: String,
+        path: String,
+    ) -> Unit,
 ) : ListAdapter<Song, SongViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -37,6 +42,15 @@ class SongAdapter(
                 textviewSongName.text = model.title
                 textviewSongArtist.text = model.artist
                 textviewSongGenre.text = model.genre
+
+                root.setOnClickListener {
+                    onItemClick(
+                        model.title,
+                        model.artist,
+                        model.genre,
+                        model.path,
+                    )
+                }
             }
         }
     }
