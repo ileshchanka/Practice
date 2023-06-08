@@ -20,6 +20,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        var songName = EMPTY_STRING
+        var artistName = EMPTY_STRING
         var songPath = EMPTY_STRING
 
         with(binding) {
@@ -28,6 +30,8 @@ class MainActivity : AppCompatActivity() {
                     Util.startForegroundService(
                         this@MainActivity,
                         Intent(this@MainActivity, MusicService::class.java).apply {
+                            putExtra(EXTRA_SONG_NAME, songName)
+                            putExtra(EXTRA_ARTIST_NAME, artistName)
                             putExtra(EXTRA_SONG_PATH, songPath)
                         }
                     )
@@ -59,6 +63,8 @@ class MainActivity : AppCompatActivity() {
         songChangeReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
 
+                songName = intent.getStringExtra(EXTRA_SONG_NAME).orEmpty()
+                artistName = intent.getStringExtra(EXTRA_ARTIST_NAME).orEmpty()
                 songPath = intent.getStringExtra(EXTRA_SONG_PATH).orEmpty()
                 with(binding) {
                     textviewSongName.text = intent.getStringExtra(EXTRA_SONG_NAME)

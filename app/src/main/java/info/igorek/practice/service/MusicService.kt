@@ -17,6 +17,8 @@ import com.google.android.exoplayer2.ui.PlayerNotificationManager.NotificationLi
 import com.google.android.exoplayer2.util.NotificationUtil.IMPORTANCE_HIGH
 import info.igorek.practice.ACTION_PAUSE
 import info.igorek.practice.ACTION_STOP
+import info.igorek.practice.EXTRA_ARTIST_NAME
+import info.igorek.practice.EXTRA_SONG_NAME
 import info.igorek.practice.EXTRA_SONG_PATH
 import info.igorek.practice.MainActivity
 import info.igorek.practice.R
@@ -30,10 +32,11 @@ class MusicService : Service() {
 
     private lateinit var player: ExoPlayer
     private lateinit var notificationManager: PlayerNotificationManager
+    private lateinit var notificationTitle: String
 
     private val descriptionAdapter = object : MediaDescriptionAdapter {
         override fun getCurrentContentTitle(player: Player): CharSequence {
-            return player.currentMediaItem?.mediaMetadata?.title.toString()
+            return notificationTitle
         }
 
         override fun createCurrentContentIntent(player: Player): PendingIntent? {
@@ -113,6 +116,8 @@ class MusicService : Service() {
             }
 
             else -> {
+                notificationTitle =
+                    "${intent?.getStringExtra(EXTRA_ARTIST_NAME)} – ${intent?.getStringExtra(EXTRA_SONG_NAME)}"
                 val mediaItem = MediaItem.fromUri(Uri.parse(intent?.getStringExtra(EXTRA_SONG_PATH)))
 
                 player.apply {
