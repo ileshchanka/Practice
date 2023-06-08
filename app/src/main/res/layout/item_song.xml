@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    >
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textview_song_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Name"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textview_song_artist"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_song_name"
+        tools:text="Artist"
+        />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/textview_song_genre"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textview_song_artist"
+        tools:text="Genre"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
