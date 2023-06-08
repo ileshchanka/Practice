@@ -4,4 +4,8 @@
     <string name="channel_desc">Channel Description</string>
     <string name="choose_artist">Выбрать исполнителя…</string>
     <string name="choose_genre">Выбрать жанр…</string>
+    <string name="song_no_name">–</string>
+    <string name="start">Start</string>
+    <string name="pause">Pause</string>
+    <string name="stop">Stop</string>
 </resources>

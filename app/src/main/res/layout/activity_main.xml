@@ -12,6 +12,9 @@
         android:id="@+id/textview_song_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/song_no_name"
         android:textSize="20sp"
         tools:text="Song name"
         />
@@ -20,6 +23,9 @@
         android:id="@+id/textview_song_artist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/song_no_name"
         tools:text="Song artist"
         />
 
@@ -27,6 +33,9 @@
         android:id="@+id/textview_song_genre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/song_no_name"
         tools:text="Song genre"
         />
 
@@ -44,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
-            android:text="Start"
+            android:text="@string/start"
             />
 
         <com.google.android.material.button.MaterialButton
@@ -53,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
-            android:text="Pause"
+            android:text="@string/pause"
             />
 
         <com.google.android.material.button.MaterialButton
@@ -62,7 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="8dp"
             android:layout_weight="1"
-            android:text="Stop"
+            android:text="@string/stop"
             />
 
     </LinearLayout>
@@ -71,7 +80,8 @@
         android:id="@+id/button_select_artist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Выбрать исполнителя"
+        android:layout_marginHorizontal="20dp"
+        android:text="@string/choose_artist"
         />
 
 </LinearLayout>

@@ -15,6 +15,8 @@ import com.google.android.exoplayer2.ui.PlayerNotificationManager
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.MediaDescriptionAdapter
 import com.google.android.exoplayer2.ui.PlayerNotificationManager.NotificationListener
 import com.google.android.exoplayer2.util.NotificationUtil.IMPORTANCE_HIGH
+import info.igorek.practice.ACTION_PAUSE
+import info.igorek.practice.ACTION_STOP
 import info.igorek.practice.EXTRA_SONG_PATH
 import info.igorek.practice.MainActivity
 import info.igorek.practice.R
@@ -78,12 +80,6 @@ class MusicService : Service() {
             .setChannelImportance(IMPORTANCE_HIGH)
             .setMediaDescriptionAdapter(descriptionAdapter)
             .setNotificationListener(notificationListener)
-
-            .setSmallIconResourceId(R.drawable.ic_launcher_foreground)
-            .setNextActionIconResourceId(R.drawable.ic_launcher_foreground)
-            .setPreviousActionIconResourceId(R.drawable.ic_launcher_foreground)
-            .setPlayActionIconResourceId(R.drawable.ic_launcher_foreground)
-
             .setChannelDescriptionResourceId(R.string.channel_desc)
             .setChannelNameResourceId(R.string.channel_name)
             .build()
@@ -100,14 +96,34 @@ class MusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
-        val mediaItem = MediaItem.fromUri(Uri.parse(intent?.getStringExtra(EXTRA_SONG_PATH)))
+        when (intent?.action) {
+            ACTION_PAUSE -> {
+                if (player.isPlaying) {
+                    player.pause()
+                } else {
+                    player.play()
+                }
+            }
 
-        player.apply {
-            setMediaItem(mediaItem)
-            prepare()
-            playWhenReady = true
+            ACTION_STOP -> {
+                player.stop()
+                player.seekTo(0)
+                stopForeground(true)
+                stopSelf()
+            }
+
+            else -> {
+                val mediaItem = MediaItem.fromUri(Uri.parse(intent?.getStringExtra(EXTRA_SONG_PATH)))
+
+                player.apply {
+                    setMediaItem(mediaItem)
+                    prepare()
+                    playWhenReady = true
+                }
+            }
         }
-        return START_STICKY
+
+        return START_NOT_STICKY
     }
 
     override fun onDestroy() {

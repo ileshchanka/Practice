@@ -34,30 +34,39 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            buttonPause.setOnClickListener {}
-            buttonStop.setOnClickListener {}
+            buttonPause.setOnClickListener {
+                startService(
+                    Intent(this@MainActivity, MusicService::class.java).apply {
+                        action = ACTION_PAUSE
+                    }
+                )
+            }
+            buttonStop.setOnClickListener {
+                startService(
+                    Intent(this@MainActivity, MusicService::class.java).apply {
+                        action = ACTION_STOP
+                    }
+                )
+            }
 
             buttonSelectArtist.setOnClickListener {
-                val intent = Intent(this@MainActivity, SelectArtistActivity::class.java)
-                startActivity(intent)
+                startActivity(
+                    Intent(this@MainActivity, SelectArtistActivity::class.java)
+                )
             }
         }
 
         songChangeReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                val songName = intent.getStringExtra(EXTRA_SONG_NAME)
-                val artistName = intent.getStringExtra(EXTRA_ARTIST_NAME)
-                val genreName = intent.getStringExtra(EXTRA_GENRE_NAME)
-                songPath = intent.getStringExtra(EXTRA_SONG_PATH).orEmpty()
 
+                songPath = intent.getStringExtra(EXTRA_SONG_PATH).orEmpty()
                 with(binding) {
-                    textviewSongArtist.text = artistName
-                    textviewSongName.text = songName
-                    textviewSongGenre.text = genreName
+                    textviewSongName.text = intent.getStringExtra(EXTRA_SONG_NAME)
+                    textviewSongArtist.text = intent.getStringExtra(EXTRA_ARTIST_NAME)
+                    textviewSongGenre.text = intent.getStringExtra(EXTRA_GENRE_NAME)
                 }
             }
         }
-
     }
 
     override fun onResume() {
