@@ -7,20 +7,15 @@ import android.widget.AdapterView
 import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
-import info.igorek.practice.contentprovider.MusicContentProvider.Companion.COLUMN_ARTIST
-import info.igorek.practice.contentprovider.MusicContentProvider.Companion.COLUMN_GENRE
-import info.igorek.practice.contentprovider.MusicContentProvider.Companion.COLUMN_ID
-import info.igorek.practice.contentprovider.MusicContentProvider.Companion.COLUMN_PATH
-import info.igorek.practice.contentprovider.MusicContentProvider.Companion.COLUMN_TITLE
-import info.igorek.practice.contentprovider.MusicContentProvider.Companion.CONTENT_URI
-import info.igorek.practice.contentprovider.Song
 import info.igorek.practice.contentprovider.SongAdapter
 import info.igorek.practice.databinding.ActivitySelectArtistBinding
 
 class SelectArtistActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySelectArtistBinding
+    private lateinit var viewModel: ViewModel
     private lateinit var localBroadcastManager: LocalBroadcastManager
 
     private val chooseArtist by lazy {
@@ -48,9 +43,11 @@ class SelectArtistActivity : AppCompatActivity() {
         binding = ActivitySelectArtistBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel = ViewModelProvider(this).get(ViewModel::class.java)
+
         localBroadcastManager = LocalBroadcastManager.getInstance(this)
 
-        val artistGenreList = getArtistsAndGenres()
+        val artistGenreList = viewModel.getArtistsAndGenres(contentResolver)
 
         val artistList = artistGenreList.map { it.first }.distinct().toMutableList().apply {
             add(0, chooseArtist)
@@ -70,7 +67,15 @@ class SelectArtistActivity : AppCompatActivity() {
                 onItemSelectedListener = object : OnItemSelectedListener {
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        getByArtistAndGenre()
+                        songAdapter.submitList(
+                            viewModel.getByArtistAndGenre(
+                                contentResolver = contentResolver,
+                                selectedArtist = binding.spinnerArtist.selectedItem.toString(),
+                                selectedGenre = binding.spinnerGenre.selectedItem.toString(),
+                                defaultArtist = chooseArtist,
+                                defaultGenre = chooseGenre,
+                            )
+                        )
                     }
                 }
             }
@@ -85,7 +90,15 @@ class SelectArtistActivity : AppCompatActivity() {
                 onItemSelectedListener = object : OnItemSelectedListener {
                     override fun onNothingSelected(parent: AdapterView<*>?) {}
                     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        getByArtistAndGenre()
+                        songAdapter.submitList(
+                            viewModel.getByArtistAndGenre(
+                                contentResolver = contentResolver,
+                                selectedArtist = binding.spinnerArtist.selectedItem.toString(),
+                                selectedGenre = binding.spinnerGenre.selectedItem.toString(),
+                                defaultArtist = chooseArtist,
+                                defaultGenre = chooseGenre,
+                            )
+                        )
                     }
 
                 }
@@ -93,68 +106,5 @@ class SelectArtistActivity : AppCompatActivity() {
 
             recyclerviewSongs.adapter = songAdapter
         }
-    }
-
-    private fun getArtistsAndGenres(): List<Pair<String, String>> {
-        val list = mutableListOf<Pair<String, String>>()
-
-        val cursor = contentResolver.query(CONTENT_URI, arrayOf(COLUMN_ARTIST, COLUMN_GENRE), null, null, null)
-        cursor?.use { c ->
-            while (c.moveToNext()) {
-                list.add(
-                    Pair(
-                        c.getString(c.getColumnIndexOrThrow(COLUMN_ARTIST)),
-                        c.getString(c.getColumnIndexOrThrow(COLUMN_GENRE)),
-                    )
-                )
-            }
-        }
-        return list
-    }
-
-    private fun getByArtistAndGenre() {
-        val songList = mutableListOf<Song>()
-
-        val artist = binding.spinnerArtist.selectedItem.toString()
-        val genre = binding.spinnerGenre.selectedItem.toString()
-
-        val selection = when {
-            artist != chooseArtist && genre != chooseGenre -> {
-                "$COLUMN_ARTIST = \"$artist\" AND $COLUMN_GENRE = \"$genre\""
-            }
-
-            artist == chooseArtist && genre != chooseGenre -> {
-                "$COLUMN_GENRE = \"$genre\""
-            }
-
-            artist != chooseArtist && genre == chooseGenre -> {
-                "$COLUMN_ARTIST = \"$artist\""
-            }
-
-            else -> null
-        }
-
-        val cursor2 = contentResolver.query(
-            CONTENT_URI,
-            null,
-            selection,
-            null,
-            null,
-        )
-
-        cursor2?.use { c ->
-            while (c.moveToNext()) {
-                songList.add(
-                    Song(
-                        c.getLong(c.getColumnIndexOrThrow(COLUMN_ID)),
-                        c.getString(c.getColumnIndexOrThrow(COLUMN_ARTIST)),
-                        c.getString(c.getColumnIndexOrThrow(COLUMN_GENRE)),
-                        c.getString(c.getColumnIndexOrThrow(COLUMN_TITLE)),
-                        c.getString(c.getColumnIndexOrThrow(COLUMN_PATH)),
-                    )
-                )
-            }
-        }
-        songAdapter.submitList(songList)
     }
 }
